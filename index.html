@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👑 مركز القيادة الملكي · محمد الحمصي</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+<div class="toast" id="toast"></div>
+
+<!-- POMO OVERLAY -->
+<div class="pomo-overlay" id="pomoOverlay">
+  <div class="pomo-inner">
+    <div class="pomo-badge">ROYAL FOCUS MODE · محمد الحمصي</div>
+    <div class="pomo-state-label" id="pomoStateText">جلسة التركيز الملكية 🎯</div>
+    <div class="pomo-sub">وضع العزلة التامة — لا شيء يشتتك الآن</div>
+    <div class="pomo-counter" id="pomoCounter">25:00</div>
+    <div class="pomo-progress-wrap">
+      <div class="pomo-progress" id="pomoBar"></div>
+    </div>
+    <div class="pomo-btns-row">
+      <button class="pomo-action" id="pomoToggleBtn" onclick="togglePomo()"><i class="fas fa-play"></i> تشغيل</button>
+      <button class="pomo-action pomo-exit" onclick="exitPomo()"><i class="fas fa-arrow-right-from-bracket"></i> إنهاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="header-crown">👑 ROYAL PRODUCTIVITY SYSTEM</div>
+      <h1>مركز القيادة والإنتاجية</h1>
+      <div class="greeting" id="greeting">يا مرحباً يا محمد 👋</div>
+      <div class="countdown-box">
+        <i class="fas fa-graduation-cap"></i>
+        متبقي على الوزاري:
+        <span class="cd-num" id="examTimer">-- يوم</span>
+      </div>
+    </div>
+    <div class="right-head">
+      <div class="clock-wrap">
+        <div class="clock" id="clock">00:00:00</div>
+        <div class="date-text" id="dateText">--</div>
+      </div>
+      <button class="ctrl-btn" onclick="toggleFullscreen()"><i class="fas fa-expand"></i> شاشة كاملة</button>
+    </div>
+  </div>
+
+  <div class="royal-divider"><span>✦</span></div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-box">
+      <div class="stat-icon">🎯</div>
+      <div>
+        <div class="stat-val" id="statSessions">0</div>
+        <div class="stat-lbl">جلسات اليوم</div>
+      </div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-icon">✅</div>
+      <div>
+        <div class="stat-val" id="statDone">0</div>
+        <div class="stat-lbl">مهام منجزة</div>
+      </div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-icon">⏱️</div>
+      <div>
+        <div class="stat-val" id="statMins">0</div>
+        <div class="stat-lbl">دقيقة دراسة</div>
+      </div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-icon">🔥</div>
+      <div>
+        <div class="stat-val" id="statStreak">0</div>
+        <div class="stat-lbl">سلسلة أيام</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUOTE -->
+  <div class="quote-card" onclick="newQuote()">
+    <div class="quote-text" id="quoteText">النجاح ليس نهائياً، والفشل ليس قاتلاً، ما يهم هو الشجاعة على الاستمرار.</div>
+    <div class="quote-hint">✦ اضغط لتغيير الاقتباس ✦</div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- LEFT COL -->
+    <div class="col-stack">
+      <div class="card">
+        <h2><i class="fas fa-brain"></i> مؤقت الفرم والانعزال</h2>
+        <div class="pomo-btns">
+          <button class="pomo-opt" onclick="launchPomo(25,5)">
+            <strong>⚡ فوكس سريع</strong>
+            <span>25 دقيقة دراسة / 5 دقائق راحة</span>
+          </button>
+          <button class="pomo-opt" onclick="launchPomo(50,10)">
+            <strong>📚 دراسة متوسط</strong>
+            <span>50 دقيقة دراسة / 10 دقائق راحة</span>
+          </button>
+          <button class="pomo-opt" onclick="launchPomo(90,15)">
+            <strong>👑 وضع الأسطورة</strong>
+            <span>90 دقيقة دراسة / 15 دقائق راحة</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><i class="fas fa-hourglass-start"></i> طوارئ كسر التسويف</h2>
+        <button class="spark-btn" id="sparkBtn" onclick="toggleSpark()">
+          <i class="fas fa-fire"></i> تحدي الـ 10 دقائق — ابدأ الآن
+        </button>
+        <div class="spark-timer" id="sparkTimer">10:00</div>
+      </div>
+
+      <div class="card">
+        <h2><i class="fas fa-headphones"></i> موسيقى التركيز</h2>
+        <div class="music-box">
+          <div class="music-title">✦ اختر الفئة ثم النوع</div>
+
+          <!-- Category tabs -->
+          <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;">
+            <button class="mcat-btn active" id="mcat-rain"   onclick="switchCat('rain')">🌧️ مطر</button>
+            <button class="mcat-btn"        id="mcat-water"  onclick="switchCat('water')">💧 مياه</button>
+            <button class="mcat-btn"        id="mcat-wind"   onclick="switchCat('wind')">🌿 ريح وطبيعة</button>
+            <button class="mcat-btn"        id="mcat-music"  onclick="switchCat('music')">🎵 موسيقى</button>
+          </div>
+
+          <!-- Rain panel -->
+          <div class="sound-panel" id="panel-rain">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+              <button class="music-btn" id="mbtn-rain_light"  onclick="playSound('rain_light')">🌦️ خفيف</button>
+              <button class="music-btn" id="mbtn-rain_heavy"  onclick="playSound('rain_heavy')">⛈️ غزير</button>
+              <button class="music-btn" id="mbtn-rain_roof"   onclick="playSound('rain_roof')">🏠 على السطح</button>
+              <button class="music-btn" id="mbtn-rain_storm"  onclick="playSound('rain_storm')">🌩️ عاصفة</button>
+            </div>
+          </div>
+
+          <!-- Water panel -->
+          <div class="sound-panel" id="panel-water" style="display:none;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+              <button class="music-btn" id="mbtn-waves_gentle" onclick="playSound('waves_gentle')">🌊 أمواج هادئة</button>
+              <button class="music-btn" id="mbtn-waves_deep"   onclick="playSound('waves_deep')">🌀 أمواج عميقة</button>
+              <button class="music-btn" id="mbtn-stream"       onclick="playSound('stream')">🏞️ جدول ماء</button>
+              <button class="music-btn" id="mbtn-underwater"   onclick="playSound('underwater')">🐠 تحت الماء</button>
+            </div>
+          </div>
+
+          <!-- Wind/Nature panel -->
+          <div class="sound-panel" id="panel-wind" style="display:none;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+              <button class="music-btn" id="mbtn-wind_soft"   onclick="playSound('wind_soft')">🍃 نسيم خفيف</button>
+              <button class="music-btn" id="mbtn-wind_strong" onclick="playSound('wind_strong')">💨 ريح قوية</button>
+              <button class="music-btn" id="mbtn-forest_birds" onclick="playSound('forest_birds')">🦜 غابة وطيور</button>
+              <button class="music-btn" id="mbtn-campfire"    onclick="playSound('campfire')">🔥 نار مخيم</button>
+            </div>
+          </div>
+
+          <!-- Music panel -->
+          <div class="sound-panel" id="panel-music" style="display:none;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+              <button class="music-btn" id="mbtn-lofi_chill"  onclick="playSound('lofi_chill')">🎵 Lo-Fi هادئ</button>
+              <button class="music-btn" id="mbtn-lofi_beat"   onclick="playSound('lofi_beat')">🥁 Lo-Fi بيت</button>
+              <button class="music-btn" id="mbtn-ambient"     onclick="playSound('ambient')">🌌 أمبيانت</button>
+              <button class="music-btn" id="mbtn-drone"       onclick="playSound('drone')">🎶 درون عميق</button>
+            </div>
+          </div>
+
+          <!-- Volume -->
+          <div style="margin-top:12px;display:flex;align-items:center;gap:10px;">
+            <i class="fas fa-volume-up" style="color:var(--gold);font-size:13px;"></i>
+            <input type="range" id="volSlider" min="0" max="1" step="0.05" value="0.4"
+              oninput="setVolume(this.value)"
+              style="flex:1;accent-color:var(--gold);cursor:pointer;">
+            <span id="volLabel" style="font-size:11px;color:var(--muted);font-family:'Orbitron',sans-serif;min-width:30px;">40%</span>
+          </div>
+          <div id="nowPlaying" style="text-align:center;font-size:11px;color:var(--gold);margin-top:8px;letter-spacing:1px;display:none;">
+            ▶ <span id="nowPlayingText"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COL -->
+    <div class="col-stack">
+      <div class="card">
+        <h2><i class="fas fa-list-check"></i> خطة المهام — جلسات مخصصة</h2>
+        <div class="task-input-row">
+          <input type="text" class="tinput" id="taskIn" placeholder="مادة أو مهمة...">
+          <select class="tselect" id="taskSess">
+            <option value="1">1 جلسة</option>
+            <option value="2">2 جلسة</option>
+            <option value="3" selected>3 جلسات</option>
+            <option value="4">4 جلسات</option>
+            <option value="5">5 جلسات</option>
+            <option value="6">6 جلسات</option>
+          </select>
+          <button class="tadd" onclick="addTask()">+ إضافة</button>
+        </div>
+        <div class="task-list" id="taskList"></div>
+      </div>
+
+      <div class="card">
+        <h2><i class="fas fa-pen"></i> ملاحظات سريعة</h2>
+        <textarea class="notes-area" id="notesArea" placeholder="اكتب أفكارك، خططك، مراجعاتك هنا..."></textarea>
+        <div class="notes-saved" id="notesSaved">✦ تم الحفظ تلقائياً</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">royal system by <span>M.ALHOMSI</span> · v3.0 GOLD EDITION</div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
